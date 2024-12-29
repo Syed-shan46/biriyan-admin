@@ -15,6 +15,8 @@ class AllProductsScreen extends ConsumerStatefulWidget {
 }
 
 class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
+  final bool initialStatus = true; // Example initial status (true or false)
+
   @override
   void initState() {
     super.initState();

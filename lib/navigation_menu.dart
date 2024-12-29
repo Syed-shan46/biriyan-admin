@@ -1,6 +1,6 @@
 import 'package:biriyan/controllers/nav_controller.dart';
+import 'package:biriyan/screens/add%20items/all_products_screen.dart';
 import 'package:biriyan/screens/home/home_screen.dart';
-import 'package:biriyan/screens/add%20items/all_items_screen.dart';
 import 'package:biriyan/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,7 @@ class NavigationMenu extends StatelessWidget {
 
   final List<Widget> screens = [
     const OrderScreen(),
-    const AllItemsScreen(),
+    const AllProductsScreen(),
     const SettingsScreen(),
   ];
 

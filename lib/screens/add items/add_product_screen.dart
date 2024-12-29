@@ -198,7 +198,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           side: const BorderSide(
                               color: Colors.white), // Set border color to white
                         ),
-                        const Text('need  Additional'),
+                        const Text(' Additional'),
                       ],
                     ),
                     // ignore: prefer_const_constructors
@@ -236,6 +236,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 description: description,
                                 category: selectedCategory!.name,
                                 pickedImages: images,
+                                isAvailable: true,
                                 context: context);
 
                             // Clear all fields after successful upload

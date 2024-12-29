@@ -18,6 +18,7 @@ class ProductController {
     required String category,
     required List<File> pickedImages,
     required bool isAdditional,
+    required bool isAvailable,
     required context,
   }) async {
     try {
@@ -32,6 +33,7 @@ class ProductController {
 
       if (category.isNotEmpty) {
         final Product product = Product(
+            isAvailable: true,
             id: 'id',
             itemName: productName,
             isAdditional: isAdditional,
@@ -64,6 +66,7 @@ class ProductController {
   }
 
   void updateProduct({
+    required bool isAvailable,
     required String productId,
     required String productName,
     required int productPrice,
@@ -88,6 +91,7 @@ class ProductController {
 
       if (category.isNotEmpty) {
         final Product updatedProduct = Product(
+          isAvailable: isAvailable,
           id: productId,
           itemName: productName,
           isAdditional: isAdditional,
@@ -181,4 +185,6 @@ class ProductController {
       throw Exception('Failed to delete product from backend');
     }
   }
+
+  
 }

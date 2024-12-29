@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1071778248308",
+    "project_id": "biriyani-59ef6",
+    "storage_bucket": "biriyani-59ef6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071778248308:android:727c4a77d1ab012450c321",
+        "android_client_info": {
+          "package_name": "com.example.biriyan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071778248308-2mhpvi6e23ihcbo3p9l0h8508ald1n23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG8EqdNacTLPtOuFLeVuUe8zvWtRPrfrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071778248308-2mhpvi6e23ihcbo3p9l0h8508ald1n23.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1071778248308-qp6qk7akq3nt39dqa7vcf3153lkf267c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.biriyani"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071778248308:android:2b69621ff9e5d7d250c321",
+        "android_client_info": {
+          "package_name": "com.example.biriyani"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071778248308-2mhpvi6e23ihcbo3p9l0h8508ald1n23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG8EqdNacTLPtOuFLeVuUe8zvWtRPrfrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071778248308-2mhpvi6e23ihcbo3p9l0h8508ald1n23.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1071778248308-qp6qk7akq3nt39dqa7vcf3153lkf267c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.biriyani"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

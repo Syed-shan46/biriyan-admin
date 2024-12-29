@@ -15,7 +15,8 @@ class Product {
   final int itemPrice; // Price of the product (stored as an integer).
   int? quantity = 0; // Quantity of the product available in stock.
   final String description;
-  final bool isAdditional; // Detailed description of the product.
+  bool isAvailable;
+  bool isAdditional; // Detailed description of the product.
   final String category; // Category to which the product belongs.
   final List<String>
       images; // List of image URLs or paths associated with the product.
@@ -24,10 +25,12 @@ class Product {
   // to initialize a product object with specific values for each field.
   Product({
     this.quantity,
+    required this.isAvailable,
     required this.id, // Assigns the `id` parameter to the `id` property.
     required this.itemName, // Assigns the `productName` parameter to the `productName` property.
     required this.itemPrice, // Assigns the `productPrice` parameter to the `productPrice` property.
-    required this.isAdditional, // Assigns the `quantity` parameter to the `quantity` property.
+    this.isAdditional =
+        false, // Assigns the `quantity` parameter to the `quantity` property.
     required this.description, // Assigns the `description` parameter to the `description` property.
     required this.category, // Assigns the `category` parameter to the `category` property.
     required this.images, // Assigns the `images` parameter to the `images` property.
@@ -38,6 +41,7 @@ class Product {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'isAvailable': isAvailable,
       // Storing the `id` field in the map with a key of 'id'.
       'itemName':
           itemName, // Storing the `productName` field in the map with a key of 'productName'.
@@ -46,6 +50,7 @@ class Product {
       'quantity': quantity,
       'isAdditional':
           isAdditional, // Storing the `quantity` field in the map with a key of 'quantity'.
+
       'description':
           description, // Storing the `description` field in the map with a key of 'description'.
       'category':
@@ -59,6 +64,7 @@ class Product {
   // The map is typically received from an external source like a database or API.
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
+        isAvailable: map['isAvailable'] as bool,
         id: map['_id']
             as String, // Extracts the `id` from the map and assigns it to the `id` field.
         itemName: map['itemName']

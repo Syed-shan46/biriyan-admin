@@ -50,5 +50,7 @@ final ThemeData mainTheme = ThemeData(
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+            foregroundColor:
+                const WidgetStatePropertyAll(AppColors.primaryColor),
             backgroundColor: WidgetStatePropertyAll(
                 AppColors.lightBackground.withOpacity(0.8)))));
