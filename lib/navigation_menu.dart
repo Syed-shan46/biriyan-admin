@@ -2,6 +2,7 @@ import 'package:biriyan/controllers/nav_controller.dart';
 import 'package:biriyan/screens/add%20items/all_products_screen.dart';
 import 'package:biriyan/screens/home/home_screen.dart';
 import 'package:biriyan/screens/settings/settings_screen.dart';
+import 'package:biriyan/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,7 @@ class NavigationMenu extends StatelessWidget {
   final List<Widget> screens = [
     const OrderScreen(),
     const AllProductsScreen(),
-    const SettingsScreen(),
+    const OrderScreen(),
   ];
 
   @override
@@ -22,9 +23,9 @@ class NavigationMenu extends StatelessWidget {
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           elevation: 20,
-          selectedItemColor: const Color(0xff579BB1),
-          unselectedItemColor: Colors.blueGrey.shade300,
-          backgroundColor: const Color(0xff1A1A1D),
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.white,
+          backgroundColor: AppColors.primaryColor.withOpacity(0.7),
 
           currentIndex: navController.currentIndex.value,
           onTap: navController.updateIndex, // Update index on tap

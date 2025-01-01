@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:biriyan/constants/global_variables.dart';
+import 'package:biriyan/provider/product_provider.dart';
+import 'package:biriyan/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:biriyan/models/product.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class ProductCardEditDelete extends StatefulWidget {
+class ProductCardEditDelete extends ConsumerStatefulWidget {
   final Product product;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
@@ -19,17 +23,45 @@ class ProductCardEditDelete extends StatefulWidget {
   });
 
   @override
-  State<ProductCardEditDelete> createState() => _ProductCardEditDeleteState();
+  ConsumerState<ProductCardEditDelete> createState() =>
+      _ProductCardEditDeleteState();
 }
 
-class _ProductCardEditDeleteState extends State<ProductCardEditDelete> {
+class _ProductCardEditDeleteState extends ConsumerState<ProductCardEditDelete> {
   late bool _isSwitched;
+  late IO.Socket socket; // Declare the socket variable
 
   @override
   void initState() {
     super.initState();
     // Initialize the switch state based on the product's availability
     _isSwitched = widget.product.isAvailable;
+    socket = IO.io('http://localhost:3000', <String, dynamic>{
+      'transports': ['websocket'], // Use WebSocket transport
+      'autoConnect': false, // Disable autoConnect to manually handle connection
+    });
+
+    // Listen for the socket connection
+    socket.on('connect', (_) {
+      print('Connected to WebSocket');
+    });
+
+    // Listen for product updates from the server (replace with your event)
+    socket.on('productUpdated', (data) {
+      print('Product updated: $data');
+      // You can add logic to update your product list here
+      ref.read(productProvider.notifier).fetchProducts();
+    });
+
+    // Manually connect to the socket
+    socket.connect();
+  }
+
+  @override
+  void dispose() {
+    // Close the socket connection when the screen is disposed
+    socket.disconnect();
+    super.dispose();
   }
 
   void _toggleAvailability(bool value) {
@@ -43,50 +75,33 @@ class _ProductCardEditDeleteState extends State<ProductCardEditDelete> {
 
   Future<void> _updateProductAvailability(Product product) async {
     try {
-      // Example: Call your API to update the product's availability
+      final url = Uri.parse('$uri/api/product/${product.id}/availability');
 
-      final url = Uri.parse(
-          '$uri/api/product/${product.id}/availability'); // Your backend API URL
-
-      try {
-        final response = await http.put(
-          url,
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'isAvailable':
-                product.isAvailable, // The updated availability status
-          }),
-        );
-
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
-        if (response.statusCode == 200) {
-          print('Product availability updated successfully');
-        } else {
-          print('Failed to update product: ${response.body}');
-          Get.snackbar('Failed', 'Failed to update product availability');
-        }
-      } catch (error) {
-        print('Error updating product: $error');
-        Get.snackbar('Failed', 'Failed to update product availability');
-      }
-
-      print(
-          'Product ${product.itemName} availability updated to: ${product.isAdditional}');
-      // Perform API call here to update the product in the database
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update product availability')),
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'isAvailable': product.isAvailable}),
       );
+
+      if (response.statusCode == 200) {
+        print('Product availability updated successfully');
+        Get.snackbar('Success', 'Product availability updated');
+      } else {
+        print('Failed to update product: ${response.body}');
+        Get.snackbar('Status code', 'Failed to update product availability');
+      }
+    } catch (error) {
+      print('Error updating product: $error');
+      Get.snackbar('Failed', 'Failed to update product availability');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      elevation: 4,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -117,7 +132,7 @@ class _ProductCardEditDeleteState extends State<ProductCardEditDelete> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.product.itemName,
+                    widget.product.itemName[0],
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -128,7 +143,11 @@ class _ProductCardEditDeleteState extends State<ProductCardEditDelete> {
                     'Price: ₹${widget.product.itemPrice}',
                     style: const TextStyle(color: Colors.green),
                   ),
-                  Switch(value: _isSwitched, onChanged: _toggleAvailability),
+                  Switch(
+                      activeColor: AppColors.primaryColor.withOpacity(0.7),
+                      value: _isSwitched,
+                      thumbColor: const WidgetStatePropertyAll(Colors.white),
+                      onChanged: _toggleAvailability),
                   const SizedBox(height: 4),
                 ],
               ),
@@ -139,12 +158,13 @@ class _ProductCardEditDeleteState extends State<ProductCardEditDelete> {
               children: [
                 IconButton(
                   onPressed: widget.onEdit,
-                  icon: const Icon(Icons.edit, color: Colors.blue),
+                  icon: Icon(Icons.edit,
+                      color: AppColors.primaryColor.withOpacity(0.8)),
                   tooltip: 'Edit Product',
                 ),
                 IconButton(
                   onPressed: widget.onDelete,
-                  icon: const Icon(Icons.delete, color: Colors.red),
+                  icon: Icon(Icons.delete, color: Colors.red.withOpacity(0.8)),
                   tooltip: 'Delete Product',
                 ),
               ],

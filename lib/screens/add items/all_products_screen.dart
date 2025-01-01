@@ -6,6 +6,7 @@ import 'package:biriyan/screens/add%20items/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class AllProductsScreen extends ConsumerStatefulWidget {
   const AllProductsScreen({super.key});
@@ -16,6 +17,7 @@ class AllProductsScreen extends ConsumerStatefulWidget {
 
 class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
   final bool initialStatus = true; // Example initial status (true or false)
+  late IO.Socket socket; // Declare the socket variable
 
   @override
   void initState() {
@@ -24,6 +26,33 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).fetchProducts();
     });
+    // Initialize the socket connection
+    socket = IO.io('https://your-backend-url.com', <String, dynamic>{
+      'transports': ['websocket'], // Use WebSocket transport
+      'autoConnect': false, // Disable autoConnect to manually handle connection
+    });
+
+    // Listen for the socket connection
+    socket.on('connect', (_) {
+      print('Connected to WebSocket');
+    });
+
+    // Listen for product updates from the server (replace with your event)
+    socket.on('productUpdated', (data) {
+      print('Product updated: $data');
+      // You can add logic to update your product list here
+      ref.read(productProvider.notifier).fetchProducts();
+    });
+
+    // Manually connect to the socket
+    socket.connect();
+  }
+
+  @override
+  void dispose() {
+    // Close the socket connection when the screen is disposed
+    socket.disconnect();
+    super.dispose();
   }
 
   // Function to show delete confirmation dialog

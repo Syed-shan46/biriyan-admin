@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 final ThemeData mainTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: AppColors.darkBackground,
+    scaffoldBackgroundColor: AppColors.lightBackground,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColor,
       secondary: AppColors.accentColor,
@@ -17,7 +17,7 @@ final ThemeData mainTheme = ThemeData(
       onSurface: AppColors.darkTextColor,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xff1A1A1D),
+      backgroundColor: AppColors.primaryColor,
       iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
         color: Colors.white,
@@ -25,7 +25,7 @@ final ThemeData mainTheme = ThemeData(
         fontWeight: FontWeight.bold,
       ),
     ),
-    textTheme: textTheme.apply(bodyColor: AppColors.lightTextColor),
+    textTheme: textTheme.apply(bodyColor: AppColors.darkTextColor),
     buttonTheme: const ButtonThemeData(
       buttonColor: AppColors.primaryColor,
       textTheme: ButtonTextTheme.primary,

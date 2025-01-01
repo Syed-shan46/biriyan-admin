@@ -35,17 +35,24 @@ class OrderController {
         },
       );
 
+      // Check if the response status code is 200 (OK)
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
 
-        // Access the list of orders using the correct key
-        final List<dynamic> orders = data['orders'];
-        return orders.map((order) => Order.fromJson(order)).toList();
+        // Check if the 'orders' key exists and is a list
+        if (data['orders'] is List) {
+          final List<dynamic> orders = data['orders'];
+          // Convert each order in the list to an Order object
+          return orders.map((order) => Order.fromJson(order)).toList();
+        } else {
+          throw Exception(
+              'Expected "orders" to be a list, but got: ${data['orders']}');
+        }
       } else {
         throw Exception('Failed to load orders: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error loading processing orders: $e'); // Logs detailed error
+      print('Error loading processing orders: $e');
       throw Exception('Error loading processing orders: $e');
     }
   }
@@ -69,11 +76,10 @@ class OrderController {
         throw Exception('Failed to load orders: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error loading processing orders: $e'); // Logs detailed error
-      throw Exception('Error loading processing orders: $e');
+      print('Error loading accepted orders: $e'); // Logs detailed error
+      throw Exception('Error accepted processing orders: $e');
     }
   }
-
 
   Future<List<Order>> cancelledOrders() async {
     try {
@@ -94,8 +100,8 @@ class OrderController {
         throw Exception('Failed to load orders: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error loading processing orders: $e'); // Logs detailed error
-      throw Exception('Error loading processing orders: $e');
+      print('Error loading Cancelled orders: $e'); // Logs detailed error
+      throw Exception('Error loading Cancelled orders: $e');
     }
   }
 }
